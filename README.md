@@ -1,6 +1,6 @@
 ## Full Project POO TV - :movie_camera:
 
-### Explanations of the actions of stage II :clipboard:
+### Explanations of the actions :clipboard:
 
 **Update, Popup Notifications and Subscription Types** :newspaper:
 
