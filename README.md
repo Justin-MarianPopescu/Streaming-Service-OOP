@@ -47,18 +47,3 @@ In gasirea unor solutii generale, reutilizabile, la probleme care apar frecvent 
 * **Visitor** :oncoming_bus:, creez astfel algoritmi separati care opereaza un anumit tip de obiect. In cazul de fata obiectele sunt oferite de clasele **PurchaseAccount** & **PurchaseTokens**. Clasa PurchaseAccount foloseste  metoda **buyPremium** prin care cumpar un cont premiu sau utilizatorul devine din STANDARD in PREMIUM. Iar clasa PurchaseTokens foloseste upgrade **buyTokens** prin care cumpar un anumit numar de token-uri cerut.
 
 * **Factory** :factory:, permit astfel claselor sa le aman instantierea obiectelor care se ocupa de introducerea, stergerea & modificarea listelor de filme cumparate, vizionate, apreciate si ratate. Folosesc o interfata care contine metoda **actionMovie** care va fi implementata de o metoda din fabrica care decide ce obiect sa creeze **FactoryMovie**. Construcutorii sunt astfel cat se poate de generice, nu sunt polimorfi, permit astfel subclaselor **Like**, **Watch**, **Rate**, **Purchase** sa fie create, aduaga astfel un comporatament polimorf la instantiere. Obiectele sunt create abia atunci cand se selecteaza tipul de actiune de la pagina **see details**.
-
-## Feedback Etapa a II-a & Echipa POO :speech_balloon:
-
-### Etapa a II-a
-
-Comparativ fata de Etapa I a fost mult mai simpla, nu a trebuit decat implementez decat 4 noi actiuni: back, subscribe, database add/delete & recommendation pentru userul premium curent autentificat, cea mai mare provocare a fost data de actiunea de **back**, a trebuit sa ma gandesc la o modalitate de intoarcere la pagina anterioara fara sa modific paginile anterioare care respecta structura Etapei I, flow-ul de pagini, mai pe scurt, paginile pe care ma aflu curent pana sa ma reintorc la paginile de dinainte salvate in lista. In rest, celelalte 3 actiuni au fost suficient de clare cat sa pot sa rezolv fara mari dificultati.
-
-### Echipa POO :speak_no_evil:
-
-In viitor va recomand sa nu mai modificati inputul temei, nu ma deranjeaza daca modificati referintele, outputul, in cazul in care exista nedumeriri sau greseli de workflow, de logica in program. Sa fiu sincer in cazul meu nu a reprezentat o dificultate mare noile modificari la formatul de **subscribe** & output-ul la actiunea de **watch**, la care pot sa vad un de mai multe ori fara sa primim eroare. In cazul lui **subscribe** nu a trebuit decat sa mai adaug inca un case statement la **see details** pentru actiunile **on page**, iar la **watch** sa sterg o conditie dintr-un if.
-
-Norocul meu a fost ca asa mi-am organizat proiectul caci daca nu cele 30 de min se transformau in cateva ore bune :satisfied:. Acum, nu stiu ce sa zic in cazul altor colegi... Adica, cand primesc o tema, ma astept sa fie cel putin aproximativ gata, fara sa apara modifcari destul de semnificative, totusi sa termini si dupa sa vezi ca trebuie sa o reiei de la capat nu este un sentiment placut.
-
-Va mai recomand, sa tineti legatura cu restul de echipe de la alte materii SO, AA, etc... deoarece avem si aici suficiente teme & proiecte de predat la timp, ar fi bine sa distantiati mai bine DEADLINE-urile la teme & proiecte cat sa nu apara suprapuneri, deobicei in ultimul moment apare inspiratia :stuck_out_tongue_winking_eye:.
-
