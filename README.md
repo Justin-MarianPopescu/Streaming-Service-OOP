@@ -1,49 +1,49 @@
-## Proiect POO TV - Etapa a II-a :movie_camera:
+## Full Project POO TV - :movie_camera:
 
-### Explicatii ale actiunilor etapei II :clipboard:
+### Explanations of the actions of stage II :clipboard:
 
-**Update, aparitie notifications & subscribe genres** :newspaper:
+**Update, Popup Notifications and Subscription Types** :newspaper:
 
-La toti userii apar un array list de notificari & subscriptii dupa anumite genuri de filme preferate sau filme deja detinute.
-De fiecare data cand apar modificari in baza de date adaugare/stergere film, utilizatorului i se va trece in lista de notificari. Notificarile fiecarui se pastreaza si dupa deconectarea utilizatorului, asupra listei de notificari se vor efectua doar operatii de adaugare notificari.
-Cand se da subscribe la un anumit gen de filme, el se trece in lista de genuri. Iar lista de genuri se pastreaza pentru fiecare user chiar si dupa deconectarea acestuia.
+All users see an array list of notifications & subscriptions according to certain genres of favorite movies or movies already owned.
+Every time there are changes in the movie addition/deletion database, the user will be moved to the notification list. Everyone's notifications are kept even after the user disconnects, only operations to add notifications will be performed on the notification list.
+When you subscribe to a certain genre of movies, it is added to the list of genres. And the list of genres is kept for each user even after disconnection.
 
-***subscribe action UserUI package***: abonarea unui utilizator la un anumit gen de filme la care este abonat. Utilizatorul se aboneaza la un singur gen de filme prin aceasta actiune. Fiecare subscriptie sa pastreaza de fiecare data cand user-ul iese si intra pe platforma. La fiecare subscriptie la un anumit gen de filme se pastreaza abonarile realizate.
+***subscribe action UserUI package***: subscribing a user to a certain type of movie to which he is subscribed. The user subscribes to only one type of movies through this action. Keep each subscription each time the user exits and enters the platform. With each subscription to a certain type of movies, the subscriptions made are kept.
 
-***recommendation action UserUI package***:  userii premium beneficieaza de recomandari de filme in functie de un top al genurile apreciate de utilizatori, nr de like-uri date de utilizatori, in cazul de egalitate, sortarea se face crescator dupa numele genurilor. Fileme oferite spre recomandare nu au fost de utilizatorul premium inainte.
+***recommendation action UserUI package***: premium users benefit from movie recommendations according to a top of the genres appreciated by users, number of likes given by users, in case of equality, the sorting is done by name genres. . Movies offered for recommendation have not been by premium user before.
 
-***back action case in OutputActions***: inversul actiunii de change page, in loc sa navighez inainte cu paginile conform workflow-ului, ne reintoarcem la paginile deja vizitate, actiunea se executa pentru ultimul user current autentificat. Ne putem intoarce cat timp mai avem pagini de vizitat sau daca nu ne aflam pe paginile de login/register care genereaza eroare astfel actiunea de intoarcere.
+***back action case in OutputActions***: the reverse of the change page action, instead of navigating forward with the pages according to the workflow, we do not return to the pages already visited, the action is executed for the last authenticated current user. We can return as long as we still have pages to visit or if we are not on the login/register pages that generate an error thus the return action.
 
-***database in Database class***: add & delete operations pe filme in lista de filme existenta in baza de date. In cazul aparitiei de add & delete apar noi notificari pentru useri, diferentele la aceste 2 operatii modifica lista de notificari ale utilizatorilor & lista de filme oferite la subscribe pe genuri dorite.
+***database in Database class***: add & delete operations on films in the list of existing films in the database. In the case of add & delete, notifications appear for users, different for these 2 new works, modify the list of user notifications & the list of films offered to subscribe by desired genres.
 
-### Design Patterns proiect :wrench:
+### Design Patterns project :key:
 
-Design Pattern-urile care au fost folosite in realizarea finala a proiectului au fost gandite astfel incat ca proiectul final sa beneficieze de imbunatatiri substantiale ca si numar de linii, alegeri nume variabile & obiecte, eliminarea repetarilor de secvente de cod si a erorilor aduse din cauza suprascrierea sau pierderea vechiilor referinte ale obiectelor.
+The Design Patterns that were used in the final realization of the project were thought in such a way that the final project would benefit from substantial improvements such as the number of lines, choices of variable numbers & objects, the elimination of repetitions of code sequences and errors caused by . overwriting or losing old object references.
 
-In gasirea unor solutii generale, reutilizabile, la probleme care apar frecvent in contexte similare. Design-urile au fost realizate in asa maniera cat sa fie usor de gasit  in pachete. O parte dintre pachete poarta numele design-ului ales spre implementare, astfel am creat pachete separate care contin clase & interfete care doar implementeaza design-ul cu care au fost predestinate, acum sa trecem la fapte :smile::
+In finding general, reusable solutions to problems that frequently appear in similar contexts. The designs were made in such a way as to be easy to find in the packages. Some of the packages bear the name of the design chosen for implementation, thus we have created separate packages that contain classes & interfaces that only implement the design with which they were predestined, now let's move on to the facts :smile::
 
-* ***Singleton (Lazy Instantiation)*** :construction_worker: , astfel, construcutorul privat restricitioneaza instantierea din alte clase, dar si din cauza folosirii foarte dese a acestei clase, prin urmare cu Singleton scap de dependentele foarte multe de la fiecare clasa din proiect, care depinde de o anumite clase in cauza, folosit pentru:
-    * **UserCurrent** (*class*) -utilizatorul curent autentificat in cont, pe parcursul proiectul a trebuit de mai multe ori sa am la indemana userul curent autentificat, fiind folosit in marea majoritatea actiunilor pe parcurusul proiectului, atribuirea aduce pierdieri ale valorilor retinute cand ne ducem de la o metoda la alta.
-    * **InstanceAction** (*class*) - la cele mai multe actiuni, aici am realizat scrierea in fisierul creat **result_basic** pentru executarea actiunilor din package **in**.   Actiunile de scriere sunt urmatoarele, o mare parte dintre metode au fost realizate ca o modalitate de micsora codul duplicat, actiunile de listare sunt pentru:
-    1. Detalii despre lista de filme, cat si pentru fiecare film luat individaul.
-    2. Detalii despre utilizator:
-        * **credentials** - date despre contul utilizatorului
-        * **movieList** - lista de filme pe care poate sa o vada, cu conditia ca filmul sa nu fie banned in tara sa
-        * **rated**, **watched**, **liked**, **purchased** - listele cu filmele detinute de utilizator listele se modifica constant, in urma actiunilor specifice de la Etapa I
-    3. Listele de filme achiziționate, vizionate, apreciate și evaluate de utilizator
-    4. Un nou film în lista de filme cu toate filmele existente, de la *see details*
-    5. Detalii cu toate informațiile despre utilizatorul autentificat
-    6. Toate notificarilor fiecarui utilizator
-    7. Toate filmele existente in tara utilizatorului pe baza unui criteriu de sortare
-    8. Toate filmele, inclusiv cel nou, dacă a fost adaugat in baza de date
-    9. Toate informatiilor înregistrate despre noul utilizator
-    10. Toate filmele care încep cu un șir dat startsWith
-    11. Toate filmele care nu sunt interzise într-o țară
-    12. Nod cu toate informatile despre film, cat si pentru utilizator
-    13. La sfârșitul lui *result_basic* de bază recomandarile utilizatorului curent premium
+* ***Singleton (Lazy Instantiation)*** :construction_worker: thus, the private constructor restricts the instantiation from other classes, but also because of the very frequent use of this class, therefore with Singleton I get rid of the many dependencies from each class from the project, which depends on certain classes in question, used for:
+     * **UserCurrent** (*class*) - the current user authenticated in the account, during the project I had to have the current authenticated user at hand several times, being used in the vast majority of actions during the project, the assignment brings losses of values retained when we go from one method to another.
+     * **InstanceAction** (*class*) - for most actions, here we wrote the file created **result_basic** for the execution of actions from package **in**. The write actions are the following, most of the methods were made as a way to reduce duplicate code, the list actions are for:
+     1. Details about the list of movies, as well as for each movie taken individually.
+     2. User details:
+         * **credentials** - user account data
+         * **movieList** - the list of movies that he can see, provided that the movie is not banned in his country
+         * **rated**, **watched**, **liked**, **purchased** - the lists of films owned by the user, the lists are constantly changing, following the specific actions from Stage I
+     3. Lists of movies purchased, watched, liked and rated by the user
+     4. A new movie in the movie list with all existing movies from *see details*
+     5. Details with all information about the authenticated user
+     6. All notifications to each user
+     7. All existing films in the user's country based on a sorting criterion
+     8. All movies, including the new one, if it has been added to the database
+     9. All registered information about the new user
+     10. All movies starting with a given string startsWith
+     11. All films not banned in a country
+     12. Node with all the information about the movie, as well as for the user
+     13. At the end of the basic *result_basic* the recommendations of the current premium user
 
-* **Strategy** :chart_with_upwards_trend:, selectez astfel algoritmi potriviti cu un anumit context, pentru fiecare tip de actiune de selectia a filmelor la metoda **showFilter** la run-time. Astfel, nu mai implementez de fiecare data un singur algoritm direct care sa-mi rezolve sortarea, filtrarea & stergerea filmelor, codul care se ocupa de listarea filmelor urmeaza criterile de filtrare de la etapa I.
+* **Strategy** :chart_with_upwards_trend:, I thus select suitable algorithms with a certain context, for each type of movie selection action in the **showFilter** method at run-time. Thus, I no longer implement a single direct algorithm every time to solve my sorting, filtering & deleting movies, the code that takes care of listing the movies follows the filtering criteria from stage I.
 
-* **Visitor** :oncoming_bus:, creez astfel algoritmi separati care opereaza un anumit tip de obiect. In cazul de fata obiectele sunt oferite de clasele **PurchaseAccount** & **PurchaseTokens**. Clasa PurchaseAccount foloseste  metoda **buyPremium** prin care cumpar un cont premiu sau utilizatorul devine din STANDARD in PREMIUM. Iar clasa PurchaseTokens foloseste upgrade **buyTokens** prin care cumpar un anumit numar de token-uri cerut.
+* **Visitor** :oncoming_bus:, thus I create separate algorithms that operate a certain type of object. In the present case, the objects are provided by the **PurchaseAccount** & **PurchaseTokens** classes. The PurchaseAccount class uses the **buyPremium** method to buy a premium account or the user changes from STANDARD to PREMIUM. And the PurchaseTokens class uses the upgrade **buyTokens** by which they buy a certain number of requested tokens.
 
-* **Factory** :factory:, permit astfel claselor sa le aman instantierea obiectelor care se ocupa de introducerea, stergerea & modificarea listelor de filme cumparate, vizionate, apreciate si ratate. Folosesc o interfata care contine metoda **actionMovie** care va fi implementata de o metoda din fabrica care decide ce obiect sa creeze **FactoryMovie**. Construcutorii sunt astfel cat se poate de generice, nu sunt polimorfi, permit astfel subclaselor **Like**, **Watch**, **Rate**, **Purchase** sa fie create, aduaga astfel un comporatament polimorf la instantiere. Obiectele sunt create abia atunci cand se selecteaza tipul de actiune de la pagina **see details**.
+* **Factory** :factory:, thus allow the classes to postpone the instantiation of the objects that deal with the introduction, deletion & modification of the lists of bought, watched, rated and missed movies. I use an interface that contains the **actionMovie** method that will be implemented by a factory method that decides which object to create **FactoryMovie**. The constructors are as generic as possible, they are not polymorphic, thus allowing the subclasses **Like**, **Watch**, **Rate**, **Purchase** to be created, thus adding a polymorphic behavior to instantiation . Objects are created only when the action type is selected from the **see details** page.
